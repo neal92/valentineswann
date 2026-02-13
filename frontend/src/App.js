@@ -1,5 +1,5 @@
-import "@/App.css";
-import ValentinePage from "@/components/ValentinePage";
+import "./App.css";
+import ValentinePage from "./components/ValentinePage";
 
 function App() {
   return (

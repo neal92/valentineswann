@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 import { Heart, Clock, Calendar, Sparkles, MapPin, Utensils, Camera, Music } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Button } from "./ui/button";
+import { Checkbox } from "./ui/checkbox";
+import { Label } from "./ui/label";
+import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./ui/carousel";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 
 const ValentinePage = () => {
   const [step, setStep] = useState("landing"); // landing, proposal, forms, final
@@ -14,8 +16,89 @@ const ValentinePage = () => {
   const [noButtonOpacity, setNoButtonOpacity] = useState(1);
   const [attemptCount, setAttemptCount] = useState(0);
   const [returnTime, setReturnTime] = useState("");
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState([]);
+  const [showVideo, setShowVideo] = useState(false);
+
   const noButtonRef = useRef(null);
   const surpriseRef = useRef(null);
+
+  const questions = [
+    {
+      question: "Où suis-je né ?",
+      options: ["France", "Inde", "Seychelles", "Sénégal"],
+      correct: 2
+    },
+    {
+      question: "Ma chose préférée au monde",
+      options: ["Les jeux", "Manger", "Toi", "Sortir"],
+      correct: 2
+    },
+    {
+      question: "Ma couleur préférée",
+      options: ["Bleu", "Rouge", "Vert", "Tes yeux"],
+      correct: 3
+    },
+    {
+      question: "Mon rêve professionnel",
+      options: ["Programmeur", "Chef", "Faire le tour du monde avec toi", "Artiste"],
+      correct: 2
+    },
+    {
+      question: "Combien de frères et sœurs ai-je ?",
+      options: ["0", "1", "2", "3"],
+      correct: 2
+    }
+  ];
+
+  const handleQuizStart = () => {
+    setShowQuiz(true);
+    setCurrentQuestion(0);
+    setAnswers([]);
+  };
+
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [feedbackCorrect, setFeedbackCorrect] = useState(false);
+  const [feedbackAnswer, setFeedbackAnswer] = useState("");
+  const [quizFinished, setQuizFinished] = useState(false);
+
+  const handleAnswer = (answerIndex) => {
+    const isCorrect = answerIndex === questions[currentQuestion].correct;
+    setFeedbackCorrect(isCorrect);
+    setFeedbackAnswer(questions[currentQuestion].options[questions[currentQuestion].correct]);
+    setShowFeedback(true);
+    
+    setTimeout(() => {
+      setShowFeedback(false);
+      const newAnswers = [...answers, answerIndex];
+      setAnswers(newAnswers);
+      
+      if (currentQuestion < questions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+      } else {
+        // Quiz finished
+        setQuizFinished(true);
+      }
+    }, 2000);
+  };
+
+  const handleContinueToSurprise = () => {
+    const score = answers.filter((answer, index) => answer === questions[index].correct).length;
+    if (score === questions.length) {
+      setQuizFinished(false);
+      setShowQuiz(false);
+      setShowVideo(true);
+    } else {
+      // Reset quiz
+      setQuizFinished(false);
+      setCurrentQuestion(0);
+      setAnswers([]);
+      setShowQuiz(true);
+    }
+  };
+
+  const correctAnswers = answers.filter((answer, index) => answer === questions[index].correct).length;
 
   // Countdown to 14.02.2026 at 12:00
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -206,12 +289,14 @@ const ValentinePage = () => {
                   </h2>
                   <div className="space-y-6 text-lg text-rose-100" style={{ fontFamily: "'Outfit', sans-serif" }}>
                     <p className="leading-relaxed">
-                      Chaque moment passé avec toi est magique. Cette Saint-Valentin, j'ai préparé quelque chose de spécial 
+                      J'aimerai que tu sache que chaque moment passé avec toi est magique.Je sais quee je fais des erreurs, mais cette Saint-Valentin, j'ai quand meme voulu te préparer quelque chose de spécial 
                       pour célébrer ce que nous partageons. Une soirée remplie de surprises, de rires et de moments précieux.
                     </p>
                     <p className="leading-relaxed">
-                      Tu illumines mes journées et rends chaque instant extraordinaire. Cette soirée sera le reflet de tout 
-                      ce que tu représentes pour moi : unique, précieuse et inoubliable.
+                        Les actions valent plus que mille mots, c’est pour cela que j’ai voulu te montrer, plutôt que te dire, à quel point tu comptes pour moi.
+                          Tu illumines mes journées et rends chaque instant extraordinaire.
+                          Cette soirée sera le reflet de tout ce que tu représentes pour moi :
+                          unique, précieuse et inoubliable.
                     </p>
                   </div>
                 </motion.div>
@@ -234,36 +319,187 @@ const ValentinePage = () => {
                     Nos plus beaux moments
                   </h2>
                   
-                  {/* Image Grid */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                    {/* Placeholder images - User will replace these */}
-                    {[1, 2, 3, 4, 5, 6].map((num) => (
+                  {/* Media Mosaic Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
+                    {/* Mixed Images and Videos */}
+                    {[
+                      { type: 'image', src: "/images/image1.jpeg" },
+                      { type: 'video', src: "/images/Vidéo.mov" },
+                      { type: 'image', src: "/images/image2.jpeg" },
+                      { type: 'video', src: "/images/Vidéo_1.mov" },
+                      { type: 'image', src: "/images/image3.jpeg" },
+                      { type: 'video', src: "/images/Vidéo_2.mov" },
+                      { type: 'image', src: "/images/IMG_6259.JPEG" },
+                      { type: 'video', src: "/images/Vidéo_3.mov" },
+                      { type: 'video', src: "/images/Vidéo_4.mov" },
+                      { type: 'video', src: "/images/Vidéo_5.mov" },
+                      { type: 'video', src: "/images/Vidéo_6.mov" },
+                      { type: 'video', src: "/images/Vidéo_7.mov" },
+                      { type: 'video', src: "/images/Vidéo_8.mov" },
+                      { type: 'video', src: "/images/Vidéo_9.mov" },
+                      { type: 'video', src: "/images/Vidéo_10.mov" }
+                    ].map((media, index) => (
                       <motion.div
-                        key={num}
+                        key={`${media.type}-${index}`}
                         whileHover={{ scale: 1.05 }}
                         className="aspect-square rounded-2xl overflow-hidden border-4 border-rose-400/30 shadow-xl"
-                        data-testid={`memory-image-${num}`}
                       >
-                        <img
-                          src={`https://images.unsplash.com/photo-${num === 1 ? '1655788174766-a63b2d4409d1' : num === 2 ? '1550015296-7fd664acc768' : num === 3 ? '1712677927853-4481a1c078bc' : num === 4 ? '1661153795615-439d1cd786d5' : num === 5 ? '1655788174766-a63b2d4409d1' : '1550015296-7fd664acc768'}?crop=entropy&cs=srgb&fm=jpg&q=85`}
-                          alt={`Placeholder ${num}`}
-                          className="w-full h-full object-cover"
-                        />
+                        {media.type === 'image' ? (
+                          <img
+                            src={media.src}
+                            alt={`Moment spécial ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <video 
+                            src={media.src} 
+                            muted 
+                            loop
+                            className="w-full h-full object-cover"
+                            poster={`/images/${['image1.jpeg', 'image2.jpeg', 'image3.jpeg', 'IMG_6259.JPEG', 'image0.jpeg'][index % 5]}`}
+                            onMouseEnter={(e) => e.target.play()}
+                            onMouseLeave={(e) => e.target.pause()}
+                          >
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                          </video>
+                        )}
                       </motion.div>
                     ))}
                   </div>
 
-                  {/* Video Section */}
+                  {/* Special Video Section */}
                   <div className="backdrop-blur-md bg-rose-950/40 p-8 rounded-3xl border border-rose-400/30 shadow-2xl">
                     <h3 className="text-2xl font-bold mb-6 text-rose-100 text-center" style={{ fontFamily: "'Playfair Display', serif" }}>
                       Vidéo spéciale
                     </h3>
-                    <div className="aspect-video rounded-xl overflow-hidden bg-rose-900/30 flex items-center justify-center" data-testid="video-placeholder">
-                      <div className="text-center text-rose-200">
-                        <Camera className="w-16 h-16 mx-auto mb-4" />
-                        <p className="text-lg">Vidéo personnalisée à ajouter ici</p>
-                        <p className="text-sm opacity-70 mt-2">(format: MP4, MOV, etc.)</p>
-                      </div>
+                    <div className="text-center">
+                      <Button
+                        size="lg"
+                        className="bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-8 py-4 text-xl rounded-full shadow-2xl transition-all hover:scale-110 animate-pulse border-2 border-rose-300"
+                        onClick={handleQuizStart}
+                      >
+                        <Sparkles className="w-6 h-6 mr-2" />
+                        Voir la vidéo spéciale
+                      </Button>
+
+                      {/* Quiz Dialog */}
+                      <Dialog open={showQuiz} onOpenChange={setShowQuiz}>
+                        <DialogContent className="max-w-md mx-auto bg-rose-950/90 border-rose-400/30">
+                          <div className="text-center">
+                            <h3 className="text-2xl font-bold text-rose-100 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
+                              Avant de voir la vidéo un petit quizz sur moi 🎯
+                            </h3>
+                            {!showFeedback ? (
+                              <>
+                                <p className="text-rose-200 mb-4">
+                                  Question {currentQuestion + 1} sur {questions.length}
+                                </p>
+                                <h4 className="text-xl text-rose-100 mb-6">
+                                  {questions[currentQuestion].question}
+                                </h4>
+                                <RadioGroup onValueChange={(value) => handleAnswer(parseInt(value))} className="space-y-3">
+                                  {questions[currentQuestion].options.map((option, index) => (
+                                    <div key={index} className="flex items-center space-x-3">
+                                      <RadioGroupItem
+                                        value={index.toString()}
+                                        id={`option-${index}`}
+                                        className="border-rose-400 text-rose-600"
+                                      />
+                                      <Label
+                                        htmlFor={`option-${index}`}
+                                        className="text-lg text-rose-100 cursor-pointer hover:text-rose-200 transition-colors"
+                                      >
+                                        {option}
+                                      </Label>
+                                    </div>
+                                  ))}
+                                </RadioGroup>
+                              </>
+                            ) : (
+                              <div className="py-8">
+                                <motion.div
+                                  initial={{ scale: 0 }}
+                                  animate={{ scale: 1 }}
+                                  className={`text-4xl mb-4 ${feedbackCorrect ? 'text-green-400' : 'text-red-400'}`}
+                                >
+                                  {feedbackCorrect ? '✅ Correct !' : '❌ Incorrect'}
+                                </motion.div>
+                                {!feedbackCorrect && (
+                                  <p className="text-rose-200 text-lg">
+                                    La bonne réponse était : <span className="text-amber-300 font-bold">{feedbackAnswer}</span>
+                                  </p>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+
+                      {/* Quiz Finished Dialog */}
+                      <Dialog open={quizFinished} onOpenChange={setQuizFinished}>
+                        <DialogContent className="max-w-md mx-auto bg-rose-950/90 border-rose-400/30">
+                          <div className="text-center">
+                            <motion.div
+                              initial={{ scale: 0 }}
+                              animate={{ scale: 1 }}
+                              className={`text-4xl mb-4 ${correctAnswers === questions.length ? 'text-amber-300' : 'text-red-400'}`}
+                            >
+                              {correctAnswers === questions.length ? '🎉' : '😅'}
+                            </motion.div>
+                            <h3 className="text-2xl font-bold text-rose-100 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+                              {correctAnswers === questions.length ? 'Parfait !' : 'Presque !'}
+                            </h3>
+                            <p className="text-rose-200 mb-6">
+                              Tu as eu {correctAnswers} bonnes réponses sur {questions.length}
+                            </p>
+                            {correctAnswers === questions.length ? (
+                              <Button
+                                onClick={handleContinueToSurprise}
+                                className="bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-full"
+                              >
+                                Continuer vers la surprise
+                              </Button>
+                            ) : (
+                              <div>
+                                <p className="text-rose-200 mb-4">
+                                  Il faut toutes les bonnes réponses pour voir la surprise !
+                                </p>
+                                <Button
+                                  onClick={handleContinueToSurprise}
+                                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full"
+                                >
+                                  Recommencer le quiz
+                                </Button>
+                              </div>
+                            )}
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+
+                      {/* Video Dialog */}
+                      <Dialog open={showVideo} onOpenChange={setShowVideo}>
+                        <DialogContent className="max-w-sm mx-auto bg-black/90 border-rose-400/30">
+                          <div className="text-center mb-4">
+                            <h3 className="text-xl font-bold text-rose-100" style={{ fontFamily: "'Playfair Display', serif" }}>
+                              Félicitations ! ❤️
+                            </h3>
+                            <p className="text-rose-200">
+                              Tu as eu {correctAnswers} bonnes réponses sur {questions.length}
+                            </p>
+                          </div>
+                          <div className="aspect-[9/16] w-full rounded-lg overflow-hidden">
+                            <video 
+                              src="/images/202602131221000000.mp4" 
+                              controls 
+                              autoPlay 
+                              className="w-full h-full object-cover"
+                              poster="/images/image0.jpeg"
+                            >
+                              Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                   </div>
                 </motion.div>
@@ -298,7 +534,7 @@ const ValentinePage = () => {
                       </div>
                       <div className="flex-1">
                         <h3 className="text-2xl font-bold text-amber-300 mb-2">19h00 - Rendez-vous</h3>
-                        <p className="text-rose-100 text-lg">Je viendrai te chercher pour commencer cette soirée magique</p>
+                        <p className="text-rose-100 text-lg">Je viendrai te chercher pour commencer cette soirée magique avec quelque surprise 🎁</p>
                       </div>
                     </motion.div>
 
@@ -326,7 +562,7 @@ const ValentinePage = () => {
                       </div>
                       <div className="flex-1">
                         <h3 className="text-2xl font-bold text-amber-300 mb-2">21h30 - Surprise spéciale</h3>
-                        <p className="text-rose-100 text-lg">Une surprise qui te fera sourire... C'est une surprise ! 🎁</p>
+                        <p className="text-rose-100 text-lg">Une surprise qui te fera sourire... ! 🎁</p>
                       </div>
                     </motion.div>
 
