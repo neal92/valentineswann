@@ -106,18 +106,18 @@ const ValentinePage = () => {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Background */}
+    <div className="min-h-screen relative overflow-x-hidden">
+      {/* Background with roses */}
       <div
         className="fixed inset-0 z-0"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1567137841661-994105d2b081?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwyfHxyZWQlMjB2ZWx2ZXQlMjBmYWJyaWMlMjB0ZXh0dXJlJTIwZGFya3xlbnwwfHx8fDE3NzA5NzUxNDV8MA&ixlib=rb-4.1.0&q=85')",
+          backgroundImage: "url('https://images.unsplash.com/photo-1550015296-7fd664acc768?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwxfHxyZWQlMjByb3NlcyUyMHJvbWFudGljJTIwdmFsZW50aW5lfGVufDB8fHxyZWR8MTc3MDk3NTY0MXww&ixlib=rb-4.1.0&q=85')",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundAttachment: "fixed",
         }}
       >
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
       {/* Floating hearts */}
@@ -126,12 +126,10 @@ const ValentinePage = () => {
           <motion.div
             key={i}
             className="absolute text-rose-300/20"
-            style={
-              {
+            style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
-            }
-          }
+            }}
             animate={{
               y: [0, -30, 0],
               opacity: [0.2, 0.5, 0.2],
@@ -156,39 +154,241 @@ const ValentinePage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="min-h-screen flex flex-col items-center justify-center px-4"
+              className="min-h-screen"
             >
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                className="text-center"
-              >
-                <h1
-                  className="text-6xl md:text-8xl font-bold mb-8 text-rose-100"
-                  style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
-                  data-testid="landing-title"
-                >
-                  Swann...
-                </h1>
-
+              {/* Hero Section */}
+              <section className="min-h-screen flex flex-col items-center justify-center px-4 text-center">
                 <motion.div
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className="mb-12"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.2, duration: 0.8 }}
                 >
-                  <Sparkles className="w-16 h-16 mx-auto text-amber-300" />
+                  <h1
+                    className="text-6xl md:text-8xl font-bold mb-6 text-rose-100"
+                    style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
+                    data-testid="hero-title"
+                  >
+                    Swann
+                  </h1>
+                  <motion.div
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="mb-8"
+                  >
+                    <Heart className="w-20 h-20 mx-auto text-rose-300" fill="currentColor" />
+                  </motion.div>
+                  <p className="text-2xl md:text-3xl text-rose-100 mb-12 max-w-3xl mx-auto" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                    Une soirée spéciale t'attend pour la Saint-Valentin
+                  </p>
+                  <Button
+                    onClick={scrollToSurprise}
+                    variant="outline"
+                    className="bg-transparent border-2 border-rose-300 text-rose-100 hover:bg-rose-600/30 px-8 py-4 text-lg rounded-full"
+                    data-testid="scroll-down-button"
+                  >
+                    Découvre la suite ↓
+                  </Button>
                 </motion.div>
+              </section>
 
-                <Button
-                  onClick={handleSurpriseClick}
-                  size="lg"
-                  className="bg-rose-600 hover:bg-rose-700 text-white px-12 py-6 text-xl rounded-full shadow-2xl transition-all hover:scale-105"
-                  data-testid="surprise-button"
+              {/* About Section */}
+              <section className="min-h-screen flex items-center justify-center px-4 py-20">
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                  className="max-w-4xl backdrop-blur-md bg-rose-950/40 p-8 md:p-16 rounded-3xl border border-rose-400/30 shadow-2xl"
                 >
-                  Voir la surprise
-                </Button>
-              </motion.div>
+                  <h2
+                    className="text-4xl md:text-5xl font-bold mb-8 text-rose-100 text-center"
+                    style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
+                    data-testid="about-title"
+                  >
+                    Une soirée inoubliable
+                  </h2>
+                  <div className="space-y-6 text-lg text-rose-100" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                    <p className="leading-relaxed">
+                      Chaque moment passé avec toi est magique. Cette Saint-Valentin, j'ai préparé quelque chose de spécial 
+                      pour célébrer ce que nous partageons. Une soirée remplie de surprises, de rires et de moments précieux.
+                    </p>
+                    <p className="leading-relaxed">
+                      Tu illumines mes journées et rends chaque instant extraordinaire. Cette soirée sera le reflet de tout 
+                      ce que tu représentes pour moi : unique, précieuse et inoubliable.
+                    </p>
+                  </div>
+                </motion.div>
+              </section>
+
+              {/* Memories Section with Images/Videos */}
+              <section className="min-h-screen flex items-center justify-center px-4 py-20">
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                  className="max-w-6xl w-full"
+                >
+                  <h2
+                    className="text-4xl md:text-5xl font-bold mb-12 text-rose-100 text-center"
+                    style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
+                    data-testid="memories-title"
+                  >
+                    Nos plus beaux moments
+                  </h2>
+                  
+                  {/* Image Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                    {/* Placeholder images - User will replace these */}
+                    {[1, 2, 3, 4, 5, 6].map((num) => (
+                      <motion.div
+                        key={num}
+                        whileHover={{ scale: 1.05 }}
+                        className="aspect-square rounded-2xl overflow-hidden border-4 border-rose-400/30 shadow-xl"
+                        data-testid={`memory-image-${num}`}
+                      >
+                        <img
+                          src={`https://images.unsplash.com/photo-${num === 1 ? '1655788174766-a63b2d4409d1' : num === 2 ? '1550015296-7fd664acc768' : num === 3 ? '1712677927853-4481a1c078bc' : num === 4 ? '1661153795615-439d1cd786d5' : num === 5 ? '1655788174766-a63b2d4409d1' : '1550015296-7fd664acc768'}?crop=entropy&cs=srgb&fm=jpg&q=85`}
+                          alt={`Placeholder ${num}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  {/* Video Section */}
+                  <div className="backdrop-blur-md bg-rose-950/40 p-8 rounded-3xl border border-rose-400/30 shadow-2xl">
+                    <h3 className="text-2xl font-bold mb-6 text-rose-100 text-center" style={{ fontFamily: "'Playfair Display', serif" }}>
+                      Vidéo spéciale
+                    </h3>
+                    <div className="aspect-video rounded-xl overflow-hidden bg-rose-900/30 flex items-center justify-center" data-testid="video-placeholder">
+                      <div className="text-center text-rose-200">
+                        <Camera className="w-16 h-16 mx-auto mb-4" />
+                        <p className="text-lg">Vidéo personnalisée à ajouter ici</p>
+                        <p className="text-sm opacity-70 mt-2">(format: MP4, MOV, etc.)</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </section>
+
+              {/* Evening Program Section */}
+              <section className="min-h-screen flex items-center justify-center px-4 py-20">
+                <motion.div
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                  className="max-w-4xl w-full backdrop-blur-md bg-rose-950/40 p-8 md:p-16 rounded-3xl border border-rose-400/30 shadow-2xl"
+                >
+                  <h2
+                    className="text-4xl md:text-5xl font-bold mb-12 text-rose-100 text-center"
+                    style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
+                    data-testid="program-title"
+                  >
+                    Le dérouler de la soirée
+                  </h2>
+
+                  <div className="space-y-8">
+                    {/* Timeline items */}
+                    <motion.div
+                      whileHover={{ x: 10 }}
+                      className="flex items-start gap-6 p-6 bg-rose-900/20 rounded-2xl border border-rose-400/20"
+                      data-testid="program-step-1"
+                    >
+                      <div className="bg-rose-600 rounded-full p-4 flex-shrink-0">
+                        <Clock className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-amber-300 mb-2">19h00 - Rendez-vous</h3>
+                        <p className="text-rose-100 text-lg">Je viendrai te chercher pour commencer cette soirée magique</p>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      whileHover={{ x: 10 }}
+                      className="flex items-start gap-6 p-6 bg-rose-900/20 rounded-2xl border border-rose-400/20"
+                      data-testid="program-step-2"
+                    >
+                      <div className="bg-rose-600 rounded-full p-4 flex-shrink-0">
+                        <Utensils className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-amber-300 mb-2">19h30 - Dîner romantique</h3>
+                        <p className="text-rose-100 text-lg">Un restaurant exceptionnel avec une ambiance intime et chaleureuse</p>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      whileHover={{ x: 10 }}
+                      className="flex items-start gap-6 p-6 bg-rose-900/20 rounded-2xl border border-rose-400/20"
+                      data-testid="program-step-3"
+                    >
+                      <div className="bg-rose-600 rounded-full p-4 flex-shrink-0">
+                        <MapPin className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-amber-300 mb-2">21h30 - Surprise spéciale</h3>
+                        <p className="text-rose-100 text-lg">Une surprise qui te fera sourire... C'est une surprise ! 🎁</p>
+                      </div>
+                    </motion.div>
+
+                    <motion.div
+                      whileHover={{ x: 10 }}
+                      className="flex items-start gap-6 p-6 bg-rose-900/20 rounded-2xl border border-rose-400/20"
+                      data-testid="program-step-4"
+                    >
+                      <div className="bg-rose-600 rounded-full p-4 flex-shrink-0">
+                        <Music className="w-6 h-6 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-amber-300 mb-2">22h00+ - La suite...</h3>
+                        <p className="text-rose-100 text-lg">La soirée continue selon nos envies et notre humeur ✨</p>
+                      </div>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              </section>
+
+              {/* Call to Action - Voir la surprise */}
+              <section ref={surpriseRef} className="min-h-screen flex items-center justify-center px-4 py-20">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                  className="text-center"
+                >
+                  <motion.div
+                    animate={{ rotate: [0, 5, -5, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className="mb-8"
+                  >
+                    <Sparkles className="w-24 h-24 mx-auto text-amber-300" />
+                  </motion.div>
+
+                  <h2
+                    className="text-5xl md:text-6xl font-bold mb-8 text-rose-100"
+                    style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
+                    data-testid="surprise-section-title"
+                  >
+                    Prête pour la surprise ?
+                  </h2>
+
+                  <p className="text-xl text-rose-100 mb-12 max-w-2xl mx-auto" style={{ fontFamily: "'Outfit', sans-serif" }}>
+                    Maintenant que tu connais le programme, il est temps de me donner ta réponse...
+                  </p>
+
+                  <Button
+                    onClick={handleSurpriseClick}
+                    size="lg"
+                    className="bg-rose-600 hover:bg-rose-700 text-white px-16 py-8 text-2xl rounded-full shadow-2xl transition-all hover:scale-110 animate-pulse"
+                    data-testid="surprise-button"
+                  >
+                    Voir la surprise
+                  </Button>
+                </motion.div>
+              </section>
             </motion.div>
           )}
 
