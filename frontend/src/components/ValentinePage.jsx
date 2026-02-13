@@ -21,10 +21,6 @@ const ValentinePage = () => {
   const [answers, setAnswers] = useState([]);
   const [showVideo, setShowVideo] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const [email, setEmail] = useState("");
-  const [emailSent, setEmailSent] = useState(false);
-  const [emailError, setEmailError] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const noButtonRef = useRef(null);
   const surpriseRef = useRef(null);
@@ -104,41 +100,6 @@ const ValentinePage = () => {
   };
 
   const correctAnswers = answers.filter((answer, index) => answer === questions[index].correct).length;
-
-  const handleSendEmail = async () => {
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setEmailError("Veuillez entrer une adresse email valide");
-      return;
-    }
-
-    setIsSubmitting(true);
-    setEmailError("");
-
-    try {
-      // Use environment variable for backend URL, fallback to proxy in development
-      const apiUrl = process.env.REACT_APP_BACKEND_URL || '/api/send-video';
-      
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setEmailSent(true);
-      } else {
-        setEmailError(data.error || "Une erreur est survenue lors de l'envoi");
-      }
-    } catch (error) {
-      setEmailError("Impossible de se connecter au serveur");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   // Detect touch device
   useEffect(() => {
@@ -370,52 +331,25 @@ const ValentinePage = () => {
                   
                   {/* Media Mosaic Grid */}
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
-                    {/* Mixed Images and Videos with controls */}
+                    {/* Images only */}
                     {[
-                      { type: 'image', src: "/images/image1.jpeg" },
-                      { type: 'video', src: "/images/Vidéo.mov" },
-                      { type: 'image', src: "/images/image2.jpeg" },
-                      { type: 'video', src: "/images/Vidéo_1.mov" },
-                      { type: 'image', src: "/images/image3.jpeg" },
-                      { type: 'video', src: "/images/Vidéo_2.mov" },
-                      { type: 'image', src: "/images/IMG_6259.JPEG" },
-                      { type: 'video', src: "/images/Vidéo_3.mov" },
-                      { type: 'image', src: "/images/img1.jpeg" },
-                      { type: 'video', src: "/images/Vidéo_4.mov" },
-                      { type: 'video', src: "/images/v_1.mov" },
-                      { type: 'video', src: "/images/Vidéo_5.mov" },
-                      { type: 'video', src: "/images/v_4.mov" },
-                      { type: 'video', src: "/images/Vidéo_6.mov" },
-                      { type: 'video', src: "/images/v_6.mov" },
-                      { type: 'video', src: "/images/Vidéo_7.mov" },
-                      { type: 'video', src: "/images/v_9.mov" },
-                      { type: 'video', src: "/images/Vidéo_8.mov" },
-                      { type: 'video', src: "/images/v10.mov" },
-                      { type: 'video', src: "/images/Vidéo_9.mov" },
-                      { type: 'image', src: "/images/image0.jpeg" }
-                    ].map((media, index) => (
+                      "/images/image1.jpeg",
+                      "/images/image2.jpeg",
+                      "/images/image3.jpeg",
+                      "/images/IMG_6259.JPEG",
+                      "/images/img1.jpeg",
+                      "/images/image0.jpeg"
+                    ].map((src, index) => (
                       <motion.div
-                        key={`${media.type}-${index}`}
+                        key={`image-${index}`}
                         whileHover={{ scale: 1.05 }}
                         className="aspect-square rounded-2xl overflow-hidden border-4 border-rose-400/30 shadow-xl"
                       >
-                        {media.type === 'image' ? (
-                          <img
-                            src={media.src}
-                            alt={`Moment spécial ${index + 1}`}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          <video 
-                            src={media.src} 
-                            controls
-                            playsInline
-                            preload="metadata"
-                            className="w-full h-full object-cover"
-                          >
-                            Votre navigateur ne supporte pas la lecture de vidéos.
-                          </video>
-                        )}
+                        <img
+                          src={src}
+                          alt={`Moment spécial ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
                       </motion.div>
                     ))}
                   </div>
@@ -536,84 +470,30 @@ const ValentinePage = () => {
                         </DialogContent>
                       </Dialog>
 
-                      {/* Email Form Dialog */}
+                      {/* Video Dialog */}
                       <Dialog open={showVideo} onOpenChange={setShowVideo}>
-                        <DialogContent className="max-w-md mx-auto bg-rose-950/90 border-rose-400/30">
-                          <DialogTitle className="sr-only">Recevoir la vidéo par email</DialogTitle>
-                          <DialogDescription className="sr-only">Entre ton email pour recevoir la vidéo spéciale</DialogDescription>
+                        <DialogContent className="max-w-2xl mx-auto bg-black/90 border-rose-400/30">
+                          <DialogTitle className="sr-only">Vidéo spéciale</DialogTitle>
+                          <DialogDescription className="sr-only">Ta vidéo spéciale de Saint-Valentin</DialogDescription>
                           <div className="text-center">
-                            {!emailSent ? (
-                              <>
-                                <h3 className="text-2xl font-bold text-rose-100 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-                                  Félicitations ! ❤️
-                                </h3>
-                                <p className="text-rose-200 mb-6">
-                                  Tu as réussi le quiz avec {correctAnswers}/{questions.length} !
-                                </p>
-                                <p className="text-rose-200 mb-6">
-                                  Entre ton adresse email pour recevoir la vidéo spéciale :
-                                </p>
-                                <div className="space-y-4">
-                                  <input
-                                    type="email"
-                                    placeholder="Votre adresse email"
-                                    value={email}
-                                    onChange={(e) => {
-                                      setEmail(e.target.value);
-                                      setEmailError("");
-                                    }}
-                                    className="w-full px-4 py-3 rounded-lg bg-rose-900/30 border border-rose-400/30 text-rose-100 placeholder-rose-300/50 focus:outline-none focus:border-rose-400"
-                                    disabled={isSubmitting}
-                                  />
-                                  {emailError && (
-                                    <p className="text-red-400 text-sm">{emailError}</p>
-                                  )}
-                                  <Button
-                                    onClick={handleSendEmail}
-                                    disabled={isSubmitting}
-                                    className="w-full bg-gradient-to-r from-rose-500 to-pink-600 hover:from-rose-600 hover:to-pink-700 text-white px-6 py-3 rounded-full"
-                                  >
-                                    {isSubmitting ? (
-                                      <>
-                                        <span className="inline-block animate-spin mr-2">⏳</span>
-                                        Envoi en cours...
-                                      </>
-                                    ) : (
-                                      "Recevoir la vidéo"
-                                    )}
-                                  </Button>
-                                </div>
-                              </>
-                            ) : (
-                              <>
-                                <motion.div
-                                  initial={{ scale: 0 }}
-                                  animate={{ scale: 1 }}
-                                  className="text-6xl mb-4"
-                                >
-                                  💌
-                                </motion.div>
-                                <h3 className="text-2xl font-bold text-rose-100 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
-                                  Email envoyé !
-                                </h3>
-                                <p className="text-rose-200 mb-4">
-                                  Vérifie ta boîte mail ({email})
-                                </p>
-                                <p className="text-rose-300 text-sm">
-                                  Si tu ne vois rien, pense à regarder dans les spams 😉
-                                </p>
-                                <Button
-                                  onClick={() => {
-                                    setShowVideo(false);
-                                    setEmailSent(false);
-                                    setEmail("");
-                                  }}
-                                  className="mt-6 bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-full"
-                                >
-                                  Fermer
-                                </Button>
-                              </>
-                            )}
+                            <h3 className="text-2xl font-bold text-rose-100 mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+                              Félicitations ! ❤️
+                            </h3>
+                            <p className="text-rose-200 mb-6">
+                              Tu as réussi le quiz avec {correctAnswers}/{questions.length} !
+                            </p>
+                            <div className="aspect-[9/16] max-w-sm mx-auto rounded-lg overflow-hidden">
+                              <video 
+                                src="/images/copy_0D1D9C86-499D-48C7-9495-5668E08709C0.mp4" 
+                                controls 
+                                autoPlay 
+                                playsInline
+                                preload="auto"
+                                className="w-full h-full object-cover"
+                              >
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                              </video>
+                            </div>
                           </div>
                         </DialogContent>
                       </Dialog>
