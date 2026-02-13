@@ -7,7 +7,7 @@ import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./ui/carousel";
-import { Dialog, DialogContent, DialogTrigger, DialogTitle } from "./ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogDescription } from "./ui/dialog";
 
 const ValentinePage = () => {
   const [step, setStep] = useState("landing"); // landing, proposal, forms, final
@@ -412,6 +412,7 @@ const ValentinePage = () => {
                       <Dialog open={showQuiz} onOpenChange={setShowQuiz}>
                         <DialogContent className="max-w-md mx-auto bg-rose-950/90 border-rose-400/30">
                           <DialogTitle className="sr-only">Quiz sur moi</DialogTitle>
+                          <DialogDescription className="sr-only">Réponds à toutes les questions correctement pour voir la vidéo</DialogDescription>
                           <div className="text-center">
                             <h3 className="text-2xl font-bold text-rose-100 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
                               Avant de voir la vidéo un petit quizz sur moi 🎯
@@ -468,6 +469,8 @@ const ValentinePage = () => {
                       {/* Quiz Finished Dialog */}
                       <Dialog open={quizFinished} onOpenChange={setQuizFinished}>
                         <DialogContent className="max-w-md mx-auto bg-rose-950/90 border-rose-400/30">
+                          <DialogTitle className="sr-only">Résultats du quiz</DialogTitle>
+                          <DialogDescription className="sr-only">Voici tes résultats au quiz</DialogDescription>
                           <div className="text-center">
                             <motion.div
                               initial={{ scale: 0 }}
@@ -510,6 +513,7 @@ const ValentinePage = () => {
                       <Dialog open={showVideo} onOpenChange={setShowVideo}>
                         <DialogContent className="max-w-md mx-auto bg-rose-950/90 border-rose-400/30">
                           <DialogTitle className="sr-only">Recevoir la vidéo par email</DialogTitle>
+                          <DialogDescription className="sr-only">Entre ton email pour recevoir la vidéo spéciale</DialogDescription>
                           <div className="text-center">
                             {!emailSent ? (
                               <>
