@@ -1,0 +1,75 @@
+{
+  "project_name": "Swann's Valentine Proposal",
+  "theme": {
+    "mode": "dark",
+    "emotional_archetype": "Jewel & Luxury",
+    "colors": {
+      "primary": "#4a0404",
+      "primary_foreground": "#ffe4e6",
+      "secondary": "#881337",
+      "secondary_foreground": "#ffffff",
+      "background": "#2a0a10",
+      "foreground": "#ffe4e6",
+      "accent": "#fbbf24",
+      "muted": "#5c1c2b",
+      "border": "#881337"
+    },
+    "typography": {
+      "headings": {
+        "font_family": "Playfair Display, serif",
+        "weight": "700",
+        "style": "italic"
+      },
+      "body": {
+        "font_family": "Outfit, sans-serif",
+        "weight": "400"
+      }
+    }
+  },
+  "layout_strategy": {
+    "type": "Single Page Journey",
+    "spacing": "luxurious",
+    "container_style": "glass_red_velvet",
+    "scrolling": "lenis"
+  },
+  "components": {
+    "hero": {
+      "type": "Immersive",
+      "background_image": "https://images.unsplash.com/photo-1567137841661-994105d2b081?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwyfHxyZWQlMjB2ZWx2ZXQlMjBmYWJyaWMlMjB0ZXh0dXJlJTIwZGFya3xlbnwwfHx8fDE3NzA5NzUxNDV8MA&ixlib=rb-4.1.0&q=85",
+      "overlay": "bg-black/40",
+      "title": "Swann...",
+      "cta": "Voir la surprise"
+    },
+    "proposal_section": {
+      "interaction": "The 'No' button MUST move away on hover and become unclickable. The 'Yes' button should trigger a confetti explosion.",
+      "text": "Veux-tu être ma valentine ?"
+    },
+    "forms": {
+      "style": "glass_card",
+      "inputs": "shadcn/ui customized with rose-500 borders",
+      "checkbox_logic": "The 19h00 checkbox MUST be pre-checked and disabled (or read-only) with the helper text: 'De toute façon t'as pas le choix j'ai déjà réservé le restau'."
+    },
+    "countdown": {
+      "target_date": "2026-02-14T12:00:00",
+      "style": "minimalist_serif_large"
+    }
+  },
+  "assets": {
+    "images": {
+      "background_texture": "https://images.unsplash.com/photo-1567137841661-994105d2b081?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NzF8MHwxfHNlYXJjaHwyfHxyZWQlMjB2ZWx2ZXQlMjBmYWJyaWMlMjB0ZXh0dXJlJTIwZGFya3xlbnwwfHx8fDE3NzA5NzUxNDV8MA&ixlib=rb-4.1.0&q=85",
+      "candles": "https://images.unsplash.com/photo-1598617677009-abca71cd8319?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA3MDB8MHwxfHNlYXJjaHwyfHxyb21hbnRpYyUyMGNhbmRsZWxpZ2h0JTIwZGlubmVyJTIwYmx1cnJlZCUyMGJva2VofGVufDB8fHx8MTc3MDk3NTE0Nnww&ixlib=rb-4.1.0&q=85",
+      "petals": "https://images.unsplash.com/photo-1558473720-cf2dbe8a1f91?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODh8MHwxfHNlYXJjaHwzfHxmbG9hdGluZyUyMHJlZCUyMHJvc2UlMjBwZXRhbHN8ZW58MHx8fHwxNzcwOTc1MTQ2fDA&ixlib=rb-4.1.0&q=85"
+    },
+    "icons": "lucide-react"
+  },
+  "universal_guidelines": [
+    "Use 'framer-motion' for all entrance animations and the 'No' button physics.",
+    "Do NOT use gradients for the background; use the provided texture image with an overlay.",
+    "Ensure the 'No' button eventually disappears or shrinks to 0 opacity after a few attempts.",
+    "The 19h00 checkbox is the ONLY option for the restaurant time.",
+    "Return times: 22h, 23h, 00h, 01h, 'On reste ensemble toute la nuit'.",
+    "Final message must be emotional.",
+    "Add 'data-testid' to all interactive elements."
+  ],
+  "instructions_to_main_agent": "1. Install 'framer-motion', 'lenis', 'canvas-confetti', 'lucide-react'. 2. Create a 'LandingPage.jsx' that contains all sections. 3. Use the texture image as a fixed background. 4. Implement the 'No' button logic carefully - it should run away from the mouse."
+}
