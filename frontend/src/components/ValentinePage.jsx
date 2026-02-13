@@ -45,6 +45,11 @@ const ValentinePage = () => {
 
   const handleSurpriseClick = () => {
     setStep("proposal");
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const scrollToSurprise = () => {
+    surpriseRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   const handleYesClick = () => {
