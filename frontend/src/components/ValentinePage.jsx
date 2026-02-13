@@ -91,12 +91,9 @@ const ValentinePage = () => {
 
     setNoButtonPos({ x: newX, y: newY });
 
-    // Shrink the button progressively
-    const newScale = Math.max(0.1, 1 - attemptCount * 0.15);
-    const newOpacity = Math.max(0, 1 - attemptCount * 0.15);
-
-    setNoButtonScale(newScale);
-    setNoButtonOpacity(newOpacity);
+    // Keep the button at normal size and opacity (no shrinking)
+    setNoButtonScale(1);
+    setNoButtonOpacity(1);
   };
 
   const handleFormSubmit = () => {
