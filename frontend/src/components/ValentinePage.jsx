@@ -503,7 +503,7 @@ const ValentinePage = () => {
                           </div>
                           <div className="aspect-[9/16] w-full rounded-lg overflow-hidden">
                             <video 
-                              src="/images/202602131221000000.mp4" 
+                              src="/images/copy_0D1D9C86-499D-48C7-9495-5668E08709C0.MOV" 
                               controls 
                               autoPlay 
                               className="w-full h-full object-cover"
