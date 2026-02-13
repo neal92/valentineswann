@@ -20,6 +20,7 @@ const ValentinePage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState([]);
   const [showVideo, setShowVideo] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
 
   const noButtonRef = useRef(null);
   const surpriseRef = useRef(null);
@@ -99,6 +100,14 @@ const ValentinePage = () => {
   };
 
   const correctAnswers = answers.filter((answer, index) => answer === questions[index].correct).length;
+
+  // Detect touch device
+  useEffect(() => {
+    const checkTouchDevice = () => {
+      setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    };
+    checkTouchDevice();
+  }, []);
 
   // Countdown to 14.02.2026 at 12:00
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
@@ -258,7 +267,8 @@ const ValentinePage = () => {
                     <Heart className="w-20 h-20 mx-auto text-rose-300" fill="currentColor" />
                   </motion.div>
                   <p className="text-2xl md:text-3xl text-rose-100 mb-12 max-w-3xl mx-auto" style={{ fontFamily: "'Outfit', sans-serif" }}>
-                    Une soirée spéciale t'attend pour la Saint-Valentin
+                    Ce site à été faite uniquement pour toi, j'espere que tu saura apprecier et c'est une maniere de te montrer à quel point je t'aime.
+                    Bonne navigation  ❤️
                   </p>
                   <Button
                     onClick={scrollToSurprise}
@@ -362,15 +372,19 @@ const ValentinePage = () => {
                             muted 
                             loop
                             playsInline
-                            autoPlay
+                            autoPlay={isTouchDevice}
                             preload="metadata"
                             className="w-full h-full object-cover"
                             poster={media.poster}
-                            onMouseEnter={(e) => e.target.play()}
-                            onMouseLeave={(e) => e.target.pause()}
-                            onTouchStart={(e) => e.target.play()}
-                            onLoadedMetadata={(e) => {
-                              e.target.play().catch(() => {});
+                            onMouseEnter={(e) => !isTouchDevice && e.target.play().catch(() => {})}
+                            onMouseLeave={(e) => !isTouchDevice && e.target.pause()}
+                            onLoadedData={(e) => {
+                              if (isTouchDevice) {
+                                e.target.play().catch(() => {});
+                              }
+                            }}
+                            onError={(e) => {
+                              console.log('Video load error:', media.src);
                             }}
                           >
                             Votre navigateur ne supporte pas la lecture de vidéos.
