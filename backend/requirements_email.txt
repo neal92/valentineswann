@@ -1,0 +1,4 @@
+flask
+flask-cors
+mailjet-rest
+python-dotenv
