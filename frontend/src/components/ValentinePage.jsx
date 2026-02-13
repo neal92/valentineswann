@@ -324,26 +324,26 @@ const ValentinePage = () => {
                     {/* Mixed Images and Videos */}
                     {[
                       { type: 'image', src: "/images/image1.jpeg" },
-                      { type: 'video', src: "/images/Vidéo.mov" },
+                      { type: 'video', src: "/images/Vidéo.mov", poster: "/images/image1.jpeg" },
                       { type: 'image', src: "/images/image2.jpeg" },
-                      { type: 'video', src: "/images/Vidéo_1.mov" },
+                      { type: 'video', src: "/images/Vidéo_1.mov", poster: "/images/image2.jpeg" },
                       { type: 'image', src: "/images/image3.jpeg" },
-                      { type: 'video', src: "/images/Vidéo_2.mov" },
+                      { type: 'video', src: "/images/Vidéo_2.mov", poster: "/images/image3.jpeg" },
                       { type: 'image', src: "/images/IMG_6259.JPEG" },
-                      { type: 'video', src: "/images/Vidéo_3.mov" },
+                      { type: 'video', src: "/images/Vidéo_3.mov", poster: "/images/IMG_6259.JPEG" },
                       { type: 'image', src: "/images/img1.jpeg" },
-                      { type: 'video', src: "/images/Vidéo_4.mov" },
-                      { type: 'video', src: "/images/v_1.mov" },
-                      { type: 'video', src: "/images/Vidéo_5.mov" },
-                      { type: 'video', src: "/images/v_4.mov" },
-                      { type: 'video', src: "/images/Vidéo_6.mov" },
-                      { type: 'video', src: "/images/v_6.mov" },
-                      { type: 'video', src: "/images/Vidéo_7.mov" },
-                      { type: 'video', src: "/images/v_9.mov" },
-                      { type: 'video', src: "/images/Vidéo_8.mov" },
-                      { type: 'video', src: "/images/v10.mov" },
-                      { type: 'video', src: "/images/Vidéo_9.mov" },
-                      { type: 'video', src: "/images/Vidéo_10.mov" }
+                      { type: 'video', src: "/images/Vidéo_4.mov", poster: "/images/img1.jpeg" },
+                      { type: 'video', src: "/images/v_1.mov", poster: "/images/image1.jpeg" },
+                      { type: 'video', src: "/images/Vidéo_5.mov", poster: "/images/image2.jpeg" },
+                      { type: 'video', src: "/images/v_4.mov", poster: "/images/image3.jpeg" },
+                      { type: 'video', src: "/images/Vidéo_6.mov", poster: "/images/IMG_6259.JPEG" },
+                      { type: 'video', src: "/images/v_6.mov", poster: "/images/img1.jpeg" },
+                      { type: 'video', src: "/images/Vidéo_7.mov", poster: "/images/image1.jpeg" },
+                      { type: 'video', src: "/images/v_9.mov", poster: "/images/image2.jpeg" },
+                      { type: 'video', src: "/images/Vidéo_8.mov", poster: "/images/image3.jpeg" },
+                      { type: 'video', src: "/images/v10.mov", poster: "/images/IMG_6259.JPEG" },
+                      { type: 'video', src: "/images/Vidéo_9.mov", poster: "/images/img1.jpeg" },
+                      { type: 'video', src: "/images/Vidéo_10.mov", poster: "/images/image0.jpeg" }
                     ].map((media, index) => (
                       <motion.div
                         key={`${media.type}-${index}`}
@@ -363,10 +363,12 @@ const ValentinePage = () => {
                             loop
                             playsInline
                             autoPlay
+                            preload="metadata"
                             className="w-full h-full object-cover"
-                            poster={`/images/${['image1.jpeg', 'image2.jpeg', 'image3.jpeg', 'IMG_6259.JPEG', 'image0.jpeg'][index % 5]}`}
+                            poster={media.poster}
                             onMouseEnter={(e) => e.target.play()}
                             onMouseLeave={(e) => e.target.pause()}
+                            onTouchStart={(e) => e.target.play()}
                             onLoadedMetadata={(e) => {
                               e.target.play().catch(() => {});
                             }}
@@ -506,8 +508,13 @@ const ValentinePage = () => {
                               src="/images/copy_0D1D9C86-499D-48C7-9495-5668E08709C0.MOV" 
                               controls 
                               autoPlay 
+                              playsInline
+                              preload="auto"
                               className="w-full h-full object-cover"
-                              poster="/images/image0.jpeg"
+                              poster="/images/image1.jpeg"
+                              onLoadedMetadata={(e) => {
+                                e.target.play().catch(() => {});
+                              }}
                             >
                               Votre navigateur ne supporte pas la lecture de vidéos.
                             </video>
