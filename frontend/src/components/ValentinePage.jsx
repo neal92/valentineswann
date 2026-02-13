@@ -355,10 +355,15 @@ const ValentinePage = () => {
                             src={media.src} 
                             muted 
                             loop
+                            playsInline
+                            autoPlay
                             className="w-full h-full object-cover"
                             poster={`/images/${['image1.jpeg', 'image2.jpeg', 'image3.jpeg', 'IMG_6259.JPEG', 'image0.jpeg'][index % 5]}`}
                             onMouseEnter={(e) => e.target.play()}
                             onMouseLeave={(e) => e.target.pause()}
+                            onLoadedMetadata={(e) => {
+                              e.target.play().catch(() => {});
+                            }}
                           >
                             Votre navigateur ne supporte pas la lecture de vidéos.
                           </video>
@@ -389,6 +394,9 @@ const ValentinePage = () => {
                             <h3 className="text-2xl font-bold text-rose-100 mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>
                               Avant de voir la vidéo un petit quizz sur moi 🎯
                             </h3>
+                            <p className="text-rose-200 mb-6 text-sm italic">
+                              ⚠️ Si tu n'as pas toutes les bonnes réponses, tu ne verras pas la petite vidéo !
+                            </p>
                             {!showFeedback ? (
                               <>
                                 <p className="text-rose-200 mb-4">
