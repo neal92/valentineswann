@@ -370,25 +370,52 @@ const ValentinePage = () => {
                   
                   {/* Media Mosaic Grid */}
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
-                    {/* Images only - .mov files are not web-compatible */}
+                    {/* Mixed Images and Videos with controls */}
                     {[
-                      "/images/image1.jpeg",
-                      "/images/image2.jpeg",
-                      "/images/image3.jpeg",
-                      "/images/IMG_6259.JPEG",
-                      "/images/img1.jpeg",
-                      "/images/image0.jpeg"
-                    ].map((src, index) => (
+                      { type: 'image', src: "/images/image1.jpeg" },
+                      { type: 'video', src: "/images/Vidéo.mov" },
+                      { type: 'image', src: "/images/image2.jpeg" },
+                      { type: 'video', src: "/images/Vidéo_1.mov" },
+                      { type: 'image', src: "/images/image3.jpeg" },
+                      { type: 'video', src: "/images/Vidéo_2.mov" },
+                      { type: 'image', src: "/images/IMG_6259.JPEG" },
+                      { type: 'video', src: "/images/Vidéo_3.mov" },
+                      { type: 'image', src: "/images/img1.jpeg" },
+                      { type: 'video', src: "/images/Vidéo_4.mov" },
+                      { type: 'video', src: "/images/v_1.mov" },
+                      { type: 'video', src: "/images/Vidéo_5.mov" },
+                      { type: 'video', src: "/images/v_4.mov" },
+                      { type: 'video', src: "/images/Vidéo_6.mov" },
+                      { type: 'video', src: "/images/v_6.mov" },
+                      { type: 'video', src: "/images/Vidéo_7.mov" },
+                      { type: 'video', src: "/images/v_9.mov" },
+                      { type: 'video', src: "/images/Vidéo_8.mov" },
+                      { type: 'video', src: "/images/v10.mov" },
+                      { type: 'video', src: "/images/Vidéo_9.mov" },
+                      { type: 'image', src: "/images/image0.jpeg" }
+                    ].map((media, index) => (
                       <motion.div
-                        key={`image-${index}`}
+                        key={`${media.type}-${index}`}
                         whileHover={{ scale: 1.05 }}
                         className="aspect-square rounded-2xl overflow-hidden border-4 border-rose-400/30 shadow-xl"
                       >
-                        <img
-                          src={src}
-                          alt={`Moment spécial ${index + 1}`}
-                          className="w-full h-full object-cover"
-                        />
+                        {media.type === 'image' ? (
+                          <img
+                            src={media.src}
+                            alt={`Moment spécial ${index + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <video 
+                            src={media.src} 
+                            controls
+                            playsInline
+                            preload="metadata"
+                            className="w-full h-full object-cover"
+                          >
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                          </video>
+                        )}
                       </motion.div>
                     ))}
                   </div>
