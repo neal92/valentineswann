@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
-import { Heart, Clock, Calendar, Sparkles } from "lucide-react";
+import { Heart, Clock, Calendar, Sparkles, MapPin, Utensils, Camera, Music } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -15,6 +15,7 @@ const ValentinePage = () => {
   const [attemptCount, setAttemptCount] = useState(0);
   const [returnTime, setReturnTime] = useState("");
   const noButtonRef = useRef(null);
+  const surpriseRef = useRef(null);
 
   // Countdown to 14.02.2026 at 12:00
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
