@@ -13,11 +13,5 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ],
-  "env": {
-    "MAILJET_API_KEY": "@mailjet-api-key",
-    "MAILJET_API_SECRET": "@mailjet-api-secret",
-    "SENDER_EMAIL": "@sender-email",
-    "SENDER_NAME": "Valentine"
-  }
+  ]
 }
