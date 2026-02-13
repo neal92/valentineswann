@@ -338,7 +338,12 @@ const ValentinePage = () => {
                       "/images/image3.jpeg",
                       "/images/IMG_6259.JPEG",
                       "/images/img1.jpeg",
-                      "/images/image0.jpeg"
+                      "/images/image0.jpeg",
+                      "/images/IMG_2024.JPG",
+                      "/images/IMG_2025.JPG",
+                      "/images/IMG_2026.JPG",
+                      "/images/IMG_2027.JPG",
+                      "/images/IMG_2029.PNG"
                     ].map((src, index) => (
                       <motion.div
                         key={`image-${index}`}
