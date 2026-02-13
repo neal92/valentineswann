@@ -331,11 +331,17 @@ const ValentinePage = () => {
                       { type: 'video', src: "/images/Vidéo_2.mov" },
                       { type: 'image', src: "/images/IMG_6259.JPEG" },
                       { type: 'video', src: "/images/Vidéo_3.mov" },
+                      { type: 'image', src: "/images/img1.jpeg" },
                       { type: 'video', src: "/images/Vidéo_4.mov" },
+                      { type: 'video', src: "/images/v_1.mov" },
                       { type: 'video', src: "/images/Vidéo_5.mov" },
+                      { type: 'video', src: "/images/v_4.mov" },
                       { type: 'video', src: "/images/Vidéo_6.mov" },
+                      { type: 'video', src: "/images/v_6.mov" },
                       { type: 'video', src: "/images/Vidéo_7.mov" },
+                      { type: 'video', src: "/images/v_9.mov" },
                       { type: 'video', src: "/images/Vidéo_8.mov" },
+                      { type: 'video', src: "/images/v10.mov" },
                       { type: 'video', src: "/images/Vidéo_9.mov" },
                       { type: 'video', src: "/images/Vidéo_10.mov" }
                     ].map((media, index) => (
@@ -676,6 +682,8 @@ const ValentinePage = () => {
                       opacity: noButtonOpacity,
                     }}
                     onHoverStart={handleNoHover}
+                    onClick={handleNoHover}
+                    onTouchStart={handleNoHover}
                     className="relative"
                   >
                     <Button
